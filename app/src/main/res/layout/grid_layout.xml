@@ -8,5 +8,8 @@
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="2"></GridView>
+        android:numColumns="2"
+        android:gravity="center"
+        android:background="#F0F0F0"
+        android:paddingBottom="2dp"></GridView>
 </android.support.constraint.ConstraintLayout>

@@ -1,59 +1,73 @@
 package com.theblucandy.bookworm;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 
-public class BooksAdapter extends BaseAdapter {
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class BooksAdapter extends ArrayAdapter {
 
     private Context context;
     private LayoutInflater inflater;
-    private String[] numbers;
-    private int[] cover;
+    private List<Book> books;
+    public static final String LOG_TAG = BooksAdapter.class.getName();
 
-    public BooksAdapter(Context context, String[] numbers, int[] cover) {
-        this.context = context;
-        this.numbers = numbers;
-        this.cover = cover;
+    public BooksAdapter(Context context, ArrayList<Book> book) {
+        super(context, 0,book );
     }
 
-    @Override
-    public int getCount() {
-        return numbers.length;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(inflater == null){
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View listItemView = convertView;
+        if (listItemView == null) {
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.row_item, parent, false);
         }
 
-        if(convertView == null){
-            convertView = inflater.inflate(R.layout.row_item, null);
+//        GET CURRENT BOOK
+        Book currentBook = (Book)getItem(position);
+//        Log.e(LOG_TAG, "Current Book________"+currentBook);
+
+        ImageView coverImage = listItemView.findViewById(R.id.image_view);
+        TextView bookName = listItemView.findViewById(R.id.book_name);
+        Log.e(LOG_TAG, "Url_____"+currentBook.getThumbnail());
+
+        String url = "https://images-na.ssl-images-amazon.com/images/I/41dKkez-1rL._SX326_BO1,204,203,200_.jpg";
+
+        if(url != null){
+            Picasso.get().load(url).into(coverImage);
         }
 
-        ImageView coverImage = convertView.findViewById(R.id.image_view);
-        TextView bookName = convertView.findViewById(R.id.book_name);
+        String nameOfBook = currentBook.getTitle();
+        int leng =10;
 
-        coverImage.setImageResource(this.cover[position]);
-        bookName.setText(this.numbers[position]);
 
-        return convertView;
+        bookName.setText(truncate(nameOfBook, leng));
+
+        return listItemView;
     }
+
+    public static String truncate(String str, int len) {
+        if (str.length() > len) {
+            return str.substring(0, len) + "...";
+        } else {
+            return str;
+        }}
+
 }

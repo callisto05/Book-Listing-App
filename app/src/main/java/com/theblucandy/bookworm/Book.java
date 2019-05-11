@@ -3,12 +3,16 @@ package com.theblucandy.bookworm;
 public class Book {
     private String title;
     private String author;
-    private int price;
+    private String price;
+    private String thumbnail;
+    private String description;
 
-    public Book(String title, String author, int price) {
+    public Book(String title, String author, String price, String thumbnail, String description) {
         this.title = title;
         this.author = author;
         this.price = price;
+        this.thumbnail = thumbnail;
+        this.description = description;
     }
 
     public String getTitle() {
@@ -19,7 +23,15 @@ public class Book {
         return author;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
